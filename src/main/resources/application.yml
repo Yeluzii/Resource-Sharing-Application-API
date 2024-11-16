@@ -1,0 +1,98 @@
+server:
+  # 系统运行端口
+  port: 8080
+  servlet:
+    # 上下文路径前缀
+    context-path: /share-app-api
+
+spring:
+  application:
+  # 系统名称
+  name: share-app-api
+  profiles:
+  # 运⾏环境
+    active: dev
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 10MB # 单个上传⽂件⼤⼩限定为10M
+      max-request-size: 100MB #  单次上传⽂件⼤⼩限定为100M
+
+  # 数据持久层框架配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  # 实体类包路径，可⾃⾏修改
+  type-aliases-package: fun.ychen.*.entity
+  configuration:
+  # 字段名允许驼峰
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  # ⽇志输出
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+  # 逻辑删除配置
+      logic-delete-field: true
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+  # 系统⽇志输出配置
+logging:
+  # 配置⽂件位置
+  config: classpath:log/logback-spring.xml
+
+# springdoc-openapi
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+      path: /v3/api-docs
+  group-configs:
+        - group: 'default'
+          paths-to-match: '/**'
+      # 扫描 controller包的路径
+          packages-to-scan: fun.ychen.share.app.controller
+
+# knife4j
+knife4j:
+      enable: true
+      setting:
+        language: zh_cn
+      basic:
+        enable: true
+        username: admin
+        password: 123456
+
+    # ⾃定义配置，需要校验的 url前缀
+auth:
+  valid_urls:
+        - /auth/logout
+        - /user/**
+        - /resource/publish
+
+#  阿⾥云OSS的配置
+aliyun:
+    oss:
+      # oss对外服务的访问域名
+      endpoint: oss-cn-nanjing.aliyuncs.com
+    #访问身份验证中⽤到⽤户标识
+      accessKeyId: ${accessKeyId}
+    #⽤户⽤于加密签名字符串和oss⽤来验证签名字符串的密钥
+      accessKeySecret: ${accessKeySecret}
+    # oss的存储空间名
+      bucketName: yeluzi08-bucket
+
+#第三⽅短信服务配置
+share:
+    sms:
+      ccp:
+        serverIp: app.cloopen.com
+        port: 8883
+        accountSId: 2c94811c9035ff9f0192adc2d5ce7ce2
+        accountToken: 1ce6ac67a4124fd09efd2f47fb37ddc0
+        appId: 2c94811c9035ff9f0192adc2d8677ce9
+        templateId: 1

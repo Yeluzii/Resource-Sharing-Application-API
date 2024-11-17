@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.ychen.share.app.mapper.NoticeMapper">
+    <select id="indexPageNotice" resultType="fun.ychen.share.app.model.vo.NoticeVO">
+        SELECT tn.*
+        FROM t_notice tn
+        WHERE tn.delete_flag = 0
+          AND tn.is_top = 1
+        ORDER BY tn.create_time DESC LIMIT 5
+    </select>
+    <select id="getNoticePage" resultType="fun.ychen.share.app.model.vo.NoticeVO">
+        SELECT tn.* FROM t_notice tn
+        WHERE tn.delete_flag = 0
+        <if test="query.title != null and query.title != ''  ">
+            AND tn.title LIKE concat('%',#{query.title},'%')
+        </if>
+        ORDER BY tn.is_top DESC, tn.create_time DESC
+    </select>
+    <select id="getNoticeDetail" resultType="fun.ychen.share.app.model.vo.NoticeVO">
+        SELECT tn.*
+        FROM t_notice tn
+        WHERE tn.delete_flag = 0
+          AND tn.pk_id = #{id}
+    </select>
+    <select id="swiperNotice" resultType="fun.ychen.share.app.model.vo.NoticeVO">
+        SELECT tn.*
+        FROM t_notice tn
+        WHERE tn.delete_flag = 0
+          AND tn.is_swiper = 1
+        ORDER BY tn.is_top DESC, tn.create_time DESC
+            LIMIT 5
+    </select>
+</mapper>

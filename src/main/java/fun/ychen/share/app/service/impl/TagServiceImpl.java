@@ -17,4 +17,12 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     public List<TagVO> getTagList() {
         return TagConvert.INSTANCE.convert(list());
     }
+
+    @Override
+    public List<String> queryTagNamesByIds(List<Integer> ids) {
+        return baseMapper.selectBatchIds(ids)
+                .stream()
+                .map(Tag::getTitle)
+                .toList();
+    }
 }

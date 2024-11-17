@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface TagService extends IService<Tag> {
     List<TagVO> getTagList();
+
+    List<String> queryTagNamesByIds(List<Integer> pkIdList);
 }

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface CategoryService extends IService<Category> {
     List<CategoryVO> getCategoryList();
+
+    List<String> queryCategoryNameList(List<Integer> pkIdList);
 }
